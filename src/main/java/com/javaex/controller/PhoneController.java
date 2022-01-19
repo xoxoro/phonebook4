@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -50,7 +51,7 @@ public class PhoneController {
 		
 		return "redirect:/phone/list";
 	}
-	
+	//@RequestParam은 URL 파라미터로 값을 넘기는 방식
 	@RequestMapping(value = "/updateForm", method = { RequestMethod.GET, RequestMethod.POST })
 	public String updateForm(@RequestParam("personId") int personId,
 		Model model) {
@@ -78,6 +79,52 @@ public class PhoneController {
 		phoneDao.personDelete(personId);
 		
 		return "redirect:/phone/list";
+	}
+
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	@RequestMapping(value="/test", method = {RequestMethod.GET, RequestMethod.POST})
+	public String test(@RequestParam(value="n") String name,
+	@RequestParam(value="age", required =false, defaultValue = "-1" ) int age ) {
+	
+	System.out.println(name);
+	System.out.println(age);
+	
+	
+	return "writeForm";
+	}
+	
+	
+	@RequestMapping(value="/view", method = {RequestMethod.GET, RequestMethod.POST})
+	public String view(@RequestParam(value="no") int no)  {
+	System.out.println("@RequestParam");
+	System.out.println( no + "번글 가져오기");
+	
+	
+	return "writeForm";
+	}
+	
+	// localhost:8088/phonebook3/phone/aaa
+	// localhost:8088/phonebook3/phone/bbb
+	//@PathVariable은 URL경로에 변수를 넣는것
+	@RequestMapping(value="/{id}", method = {RequestMethod.GET, RequestMethod.POST})
+	public String blog(@PathVariable(value="id") String id)  {
+	System.out.println(id +"의 블로그입니다.");
+	
+	return "writeForm";
+	}
+	
+	
+	
+	
+	
+	@RequestMapping(value="/{no}/{num}/view", method = {RequestMethod.GET, RequestMethod.POST})
+	public String view11(@PathVariable("no") int no, @PathVariable("num") int num)  {
+	System.out.println("@PathVariable");
+	System.out.println(no +"번글 가져오기");
+	System.out.println(num);
+	
+	
+	return "writeForm";
 	}
 
 }

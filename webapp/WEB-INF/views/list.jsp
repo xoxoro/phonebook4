@@ -13,6 +13,7 @@
 
 	<p>입력한 정보 내역입니다.</p>
 	<!-- personList앞 requestScope 생략가능 -->
+	<!-- c:forEach 리스트로 넘어온 값을 for문 돌듯이 수행시켜서 뷰에 데이터를 나타냄-->
 	<c:forEach items="${personList}" var="personVo">
 			<table border="1">
 		<tr>
