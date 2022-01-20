@@ -144,7 +144,7 @@ public class PhoneDao {
 		return getPersonList("");
 	}
 
-	// 검색
+	// 리스트 검색
 	public List<PersonVo> getPersonList(String keyword) {
 		List<PersonVo> pList = new ArrayList<PersonVo>();
 		this.getConnection();
@@ -158,14 +158,17 @@ public class PhoneDao {
 			query += " from person ";
 
 			if (keyword != "" || keyword == null) {
-				query += " where (name||hp||company) like '%'||?||'%' ";
-				query += " order by person_id asc";
+				query += " where name like ? ";
+				query += " or hp like  ? ";
+				query += " or company like ? ";
+				pstmt = conn.prepareStatement(query); // 쿼리로 만들기
 
-				pstmt = conn.prepareStatement(query);
-				pstmt.setString(1, keyword);
+				pstmt.setString(1, '%' + keyword + '%'); // ?(물음표) 중 1번째, 순서중요
+				pstmt.setString(2, '%' + keyword + '%'); // ?(물음표) 중 2번째, 순서중요
+				pstmt.setString(3, '%' + keyword + '%'); // ?(물음표) 중 3번째, 순서중요
+			
 			} else {
-				query += " order by person_id asc";
-				pstmt = conn.prepareStatement(query);
+				pstmt = conn.prepareStatement(query); // 쿼리로 만들기
 			}
 
 			rs = pstmt.executeQuery();
@@ -188,7 +191,7 @@ public class PhoneDao {
 		return pList;
 	}
 
-	// 한 사람의 데이터만 가져오기
+	// 특정 사람의 데이터만 가져오기
 	public PersonVo getPerson(int personId) {
 		PersonVo vo = null;
 		this.getConnection();
