@@ -30,7 +30,9 @@ public class PhoneController {
 	public String list(Model model) {
 		System.out.println("PhoneController>list");
 		
-		List<PersonVo> personList = phoneDao.getPersonList();	
+		List<PersonVo> personList = phoneDao.getPersonList();
+		System.out.println(personList.toString());
+		
 		model.addAttribute("personList", personList);
 		
 		return "list";
