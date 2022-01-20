@@ -36,6 +36,6 @@
 	<br>
 	</c:forEach>
 
-	<a href="/phonebook4/phone/writeForm">추가번호 등록</a>
+	<a href="/phonebook4/phone/writeForm">번호추가</a>
 </body>
 </html>
