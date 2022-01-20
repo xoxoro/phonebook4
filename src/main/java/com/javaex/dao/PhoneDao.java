@@ -83,31 +83,6 @@ public class PhoneDao {
 		return count;
 	}
 
-	// 삭제
-	public int personDelete(int index) {
-		int count = 0;
-		this.getConnection();
-
-		try {
-			String query = "";
-			query += "delete from person ";
-			query += " where person_id = ?";
-
-			pstmt = conn.prepareStatement(query);
-
-			pstmt.setInt(1, index);
-
-			count = pstmt.executeUpdate();
-			System.out.println("[" + count + "건 삭제되었습니다.(PhoneDao)]");
-
-		} catch (SQLException e) {
-			System.out.println("error:" + e);
-		}
-
-		this.close();
-		return count;
-	}
-
 	// 수정
 	public int personUpdate(PersonVo personVo) {
 		int count = 0;
@@ -133,6 +108,31 @@ public class PhoneDao {
 
 		} catch (SQLException e) {
 			System.out.println("error." + e);
+		}
+
+		this.close();
+		return count;
+	}
+	
+	// 삭제
+	public int personDelete(int index) {
+		int count = 0;
+		this.getConnection();
+
+		try {
+			String query = "";
+			query += "delete from person ";
+			query += " where person_id = ?";
+
+			pstmt = conn.prepareStatement(query);
+
+			pstmt.setInt(1, index);
+
+			count = pstmt.executeUpdate();
+			System.out.println("[" + count + "건 삭제되었습니다.(PhoneDao)]");
+
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
 		}
 
 		this.close();
