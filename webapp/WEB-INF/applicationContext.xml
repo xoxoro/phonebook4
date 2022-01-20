@@ -21,4 +21,16 @@
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Component" />
 	</context:component-scan>
 
+	    <!-- oracle datasource -->
+	    <!--bean은 자바에서 클래스를 의미, xml에서도 코드를 짤수있음-->
+    <bean id="oracleDatasource" class="oracle.jdbc.pool.OracleDataSource" destroy-method="close">
+        <property name="URL" value="jdbc:oracle:thin:@localhost:1521:xe" />
+        <property name="user" value="phonedb" />
+        <property name="password" value="phonedb" />
+        <property name="connectionCachingEnabled" value="true" />
+        <qualifier value="main-db" />
+    </bean>
+	
 </beans>
+
+
