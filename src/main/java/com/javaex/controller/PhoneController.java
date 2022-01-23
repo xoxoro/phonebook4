@@ -2,6 +2,7 @@ package com.javaex.controller;
 
 import java.util.List;
 
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,7 +36,7 @@ public class PhoneController {
 		
 		model.addAttribute("personList", personList);
 		
-		return "list";
+		return "list"; //뷰리졸버때문에 주소 축약됨
 	}
 	
 	@RequestMapping(value = "/writeForm", method = { RequestMethod.GET, RequestMethod.POST })
@@ -51,38 +52,46 @@ public class PhoneController {
 
 		phoneDao.personInsert(personVo);
 		
+		return "redirect:/phone/list"; 
+	}
+	
+	//리다이렉트나 포워드로 오기때문에 퍼블릭 스트링
+	@RequestMapping(value="/delete", method= {RequestMethod.GET, RequestMethod.POST} )
+	public String delete(@RequestParam("personId") int personId) {
+		System.out.println("PhoneController>delete()");
+		
+		//삭제
+		phoneDao.personDelete(personId);
+		
 		return "redirect:/phone/list";
 	}
+	
+	
 	//@RequestParam은 URL 파라미터로 값을 넘기는 방식
-	@RequestMapping(value = "/updateForm", method = { RequestMethod.GET, RequestMethod.POST })
-	public String updateForm(@RequestParam("personId") int personId,
-		Model model) {
-		System.out.println("PhoneController>updateForm");
-
+	@RequestMapping(value="/updateForm", method= {RequestMethod.GET, RequestMethod.POST} )
+	public String updateForm(@RequestParam("personId") int personId, Model model) {
+		System.out.println("PhoneController>updateForm()");
+		
+		//수정폼
 		PersonVo personVo = phoneDao.getPerson(personId);
 		model.addAttribute("personVo", personVo);
-		
 		return "updateForm";
 	}
 	
-	@RequestMapping(value = "/update", method = { RequestMethod.GET, RequestMethod.POST })
+	
+	@RequestMapping(value="/update", method= {RequestMethod.GET, RequestMethod.POST} )
 	public String update(@ModelAttribute PersonVo personVo) {
-		System.out.println("PhoneController>update");
-
+		System.out.println("PhoneController>update()");
+		System.out.println(personVo);
+		
+		//수정
 		phoneDao.personUpdate(personVo);
 		
 		return "redirect:/phone/list";
 	}
 	
-	@RequestMapping(value = "/delete", method = { RequestMethod.GET, RequestMethod.POST })
-	public String delete(@RequestParam("personId") int personId) {
-		System.out.println("PhoneController>delete");
-
-		phoneDao.personDelete(personId);
-		
-		return "redirect:/phone/list";
-	}
-
+	
+	/*
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	@RequestMapping(value="/test", method = {RequestMethod.GET, RequestMethod.POST})
 	public String test(@RequestParam(value="n") String name,
@@ -128,5 +137,5 @@ public class PhoneController {
 	
 	return "writeForm";
 	}
-
+	*/
 }
